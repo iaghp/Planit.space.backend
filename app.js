@@ -1,12 +1,17 @@
 import express from 'express';
-import 'dotenv/config'
+import dotenv from 'dotenv'
+import bodyParser from 'body-parser';
 
-import db from './db/conn.js';
-import gemini from './services/gemini.js';
+dotenv.config();
 
+import tests from './queries/tests.js';
+import { tasksRouter } from './routers/tasksRouter.js';
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
+
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
 
@@ -14,11 +19,9 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-
-app.get('/test', (req, res) => {
-  db.insertOne('users', {
-    name: "Bob",
-    schedule: "3424324234fsdfjisd"
+app.get('/sf', (req, res) => {
+  tests.getTestById('asdf23f2rf', (rows) => {
+    console.log(rows)
   })
   res.send('Hello World!')
 })
@@ -39,3 +42,5 @@ app.get('/generate', async (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+app.use("/api/plan/schedule", tasksRouter);
