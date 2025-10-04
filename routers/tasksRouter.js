@@ -1,35 +1,10 @@
 import { Router } from "express";
 import tasksQueries from '../queries/tasks.js' 
+import scheduleQueries from '../queries/schedules.js'
 import { v4 as uuidv4 } from 'uuid';
 import gemini from "../services/gemini.js";
 
 export const tasksRouter = Router();
-
-// const getTasksInRange = (startTime, endTime, sId, res) => {
-//     tasksQueries.getTasksInDateRange(sId, startTime, endTime, (items) => {
-//         const pages = items.map(t => ({
-//             id: t.ID,
-//             name: t.NAME,
-//             startTime: t.STARTTIME,
-//             endTime: t.ENDTIME,
-//             description: t.DESCRIPTION,
-//             status: t.STATUS,
-//             parent: {
-//                 id: t.TASKID,
-//                 name: t.TASKNAME,
-//                 deadline: t.DEADLINE,
-//                 start: t.TASKSTART
-//             }
-//         }))
-//         if (res != null) {
-//             console.log("hereeeee")
-//             res.status(200).json(pages)
-//         } else {
-//             console.log("pages", pages)
-//             return pages;
-//         }
-//     })
-// }
 
 const getTasksInRange = (startTime, endTime, sId, res) => {
     return new Promise((resolve, reject) => {
@@ -137,7 +112,12 @@ tasksRouter.get("/:scheduleId/task/:taskId/subtask/:subtaskId", async (req, res)
             startTime: t.STARTTIME,
             endTime: t.ENDTIME,
             status: t.STATUS,
-            parent: t.TASKID
+            parent: {
+                id: t.TASKID,
+                name: t.TASKNAME,
+                deadline: t.DEADLINE,
+                start: t.TASKSTART
+            }
         })
     })
 })
@@ -153,6 +133,18 @@ tasksRouter.delete("/:scheduleId/task/:taskId", (req, res) => {
 tasksRouter.delete("/:scheduleId/task/:taskId/subtask/:subtaskId", (req, res) => {
     const { subtaskId } = req.params;
     tasksQueries.deleteSubtaskById(subtaskId, () => res.send('Deleted subtask'))
+})
+
+// Create a new schedule
+tasksRouter.post("/", async (req, res) => {
+    const newScheduleId = uuidv4();
+    const newUserId = uuidv4();
+    scheduleQueries.createSchedule(newUserId, newScheduleId, 'Default', () => 
+        res.json({
+            id: newScheduleId,
+            userId: newUserId
+        })
+    )
 })
 
 tasksRouter.post('/:scheduleId/generate', async (req, res) => {
