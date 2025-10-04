@@ -43,6 +43,9 @@ export const deleteTasksByIds = (ids, consumer) =>
 export const deleteSubtasksByIds = (ids, consumer) => 
    query(`DELETE FROM SUBTASKS WHERE ID IN (${ids.map(() => '?').join(', ')})`, ids, consumer);
 
+export const deleteSubtasksByTaskId = (taskId, consumer) => 
+    query(`DELETE FROM SUBTASKS WHERE TASKID = ?`, [taskId], consumer);
+
 
 export const createTask = (scheduleId, id, task, consumer) => {
     const sql = `
@@ -75,6 +78,7 @@ export default {
     deleteSubtaskById,
     deleteTasksByIds,
     deleteSubtasksByIds,
+    deleteSubtasksByTaskId,
     createTask,
     createSubtask
 }

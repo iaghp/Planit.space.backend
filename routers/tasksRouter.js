@@ -32,10 +32,10 @@ tasksRouter.get("/:scheduleId/dailyTasks", async (req, res) => {
     const d = new Date(Date.now());
 
     const startTime = new Date(d);
-    start.setHours(0, 0, 0, 0);
+    startTime.setHours(0, 0, 0, 0);
 
     const endTime = new Date(d);
-    end.setHours(23, 59, 59, 999);
+    endTime.setHours(23, 59, 59, 999);
 
     getTasksInRange(startTime,endTime,req.params.scheduleId,res);
 })
@@ -44,6 +44,14 @@ tasksRouter.patch("/:scheduleId/task/:taskId/update", async (req, res) => {
     const { scheduleId, taskId } = req.params;
     const toChange = Object.entries(req.body)
     tasksQueries.updateTaskById(scheduleId, taskId, toChange, () => {
+        res.status(200).send('Task updated')
+    })
+}) 
+
+tasksRouter.patch("/:scheduleId/task/:taskId/subtask/:subtaskId/update", async (req, res) => {
+    const { subtaskId, taskId } = req.params;
+    const toChange = Object.entries(req.body)
+    tasksQueries.updateSubtaskById(taskId, subtaskId, toChange, () => {
         res.status(200).send('Task updated')
     })
 }) 
@@ -97,4 +105,18 @@ tasksRouter.get("/:scheduleId/task/:taskId/subtask/:subtaskId", async (req, res)
             parent: t.TASKID
         })
     })
+})
+
+
+tasksRouter.delete("/:scheduleId/task/:taskId", (req, res) => {
+    const { taskId } = req.params;
+    tasksQueries.deleteTaskById(taskId, () => {
+        tasksQueries.deleteSubtasksByTaskId(taskId, () => res.send('Deleted task'))
+    })
+
+})
+
+tasksRouter.delete("/:scheduleId/task/:taskId/subtask/:subtaskId", (req, res) => {
+    const { subtaskId } = req.params;
+    tasksQueries.deleteSubtaskById(subtaskId, () => res.send('Deleted subtask'))
 })
