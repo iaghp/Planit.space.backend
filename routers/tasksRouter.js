@@ -17,7 +17,12 @@ const getTasksInRange = (startTime, endTime, sId, res) => {
             endTime: t.ENDTIME,
             description: t.DESCRIPTION,
             status: t.STATUS,
-            parent: t.PARENT
+            parent: {
+                id: t.TASKID,
+                name: t.TASKNAME,
+                deadline: t.DEADLINE,
+                start: t.TASKSTART
+            }
           }));
           if (res != null) {
                         console.log("hereeeee")
