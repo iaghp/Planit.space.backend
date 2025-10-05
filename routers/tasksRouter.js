@@ -201,7 +201,6 @@ tasksRouter.post('/:scheduleId/generate', async (req, res) => {
     const task = response.tasks;
     const taskId = uuidv4();
     if (task) {
-        const taskId = uuidv4();
         await tasksQueries.createTask(scheduleId, taskId, {
             name: task.name,
             context: task.context,
