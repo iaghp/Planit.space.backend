@@ -1,28 +1,63 @@
 import { Router } from "express";
 import tasksQueries from '../queries/tasks.js' 
 import { v4 as uuidv4 } from 'uuid';
+import gemini from "../services/gemini.js";
 
 export const tasksRouter = Router();
 
+// const getTasksInRange = (startTime, endTime, sId, res) => {
+//     tasksQueries.getTasksInDateRange(sId, startTime, endTime, (items) => {
+//         const pages = items.map(t => ({
+//             id: t.ID,
+//             name: t.NAME,
+//             startTime: t.STARTTIME,
+//             endTime: t.ENDTIME,
+//             description: t.DESCRIPTION,
+//             status: t.STATUS,
+//             parent: {
+//                 id: t.TASKID,
+//                 name: t.TASKNAME,
+//                 deadline: t.DEADLINE,
+//                 start: t.TASKSTART
+//             }
+//         }))
+//         if (res != null) {
+//             console.log("hereeeee")
+//             res.status(200).json(pages)
+//         } else {
+//             console.log("pages", pages)
+//             return pages;
+//         }
+//     })
+// }
+
 const getTasksInRange = (startTime, endTime, sId, res) => {
-    tasksQueries.getTasksInDateRange(sId, startTime, endTime, (items) => {
-        const pages = items.map(t => ({
+    return new Promise((resolve, reject) => {
+      tasksQueries.getTasksInDateRange(sId, startTime, endTime, (items) => {
+        if (items) {
+          const pages = items.map(t => ({
             id: t.ID,
             name: t.NAME,
             startTime: t.STARTTIME,
             endTime: t.ENDTIME,
             description: t.DESCRIPTION,
             status: t.STATUS,
-            parent: {
-                id: t.TASKID,
-                name: t.TASKNAME,
-                deadline: t.DEADLINE,
-                start: t.TASKSTART
-            }
-        }))
-        res.status(200).json(pages)
-    })
-}
+            parent: t.PARENT
+          }));
+          if (res != null) {
+                        console.log("hereeeee")
+                        resolve(res.status(200).json(pages))
+                    } else {
+                        console.log("pages", pages)
+                        resolve(pages);
+                    }
+        //   resolve(pages); // Resolve the Promise with the result
+        } else {
+          reject(new Error("No tasks found in the specified range"));
+        }
+      });
+    });
+  };
 tasksRouter.get("/:scheduleId/tasks", async (req, res) => {
     const { startTime, endTime } = req.query;
     getTasksInRange(startTime,endTime,req.params.scheduleId,res);
@@ -107,7 +142,6 @@ tasksRouter.get("/:scheduleId/task/:taskId/subtask/:subtaskId", async (req, res)
     })
 })
 
-
 tasksRouter.delete("/:scheduleId/task/:taskId", (req, res) => {
     const { taskId } = req.params;
     tasksQueries.deleteTaskById(taskId, () => {
@@ -120,3 +154,44 @@ tasksRouter.delete("/:scheduleId/task/:taskId/subtask/:subtaskId", (req, res) =>
     const { subtaskId } = req.params;
     tasksQueries.deleteSubtaskById(subtaskId, () => res.send('Deleted subtask'))
 })
+
+tasksRouter.post('/:scheduleId/generate', async (req, res) => {
+    const { scheduleId } = req.params;
+    const startDate = new Date().toISOString();
+    const endDate = req.body.deadline;
+
+    const { deadline, name, context } = req.body; 
+
+    if (!deadline || !name || !context) {
+        return res.status(400).send("Missing required fields: name, context, and deadline.");
+    }
+
+    try {
+    const existingTasks = await getTasksInRange(startDate, endDate, scheduleId)
+    console.log("existing task", existingTasks)
+    let newPlan = {
+      name: req.body.name,
+      context: context,
+      deadline: deadline,
+      currentTime: startDate,
+      existingCalendar: existingTasks
+    }
+    console.log(newPlan)
+    const response = await gemini.generatePlan(newPlan);
+    // response.map(async (task) => {
+    //     const taskId = uuidv4();
+    //     await tasksQueries.createTask(scheduleId, taskId, {
+    //         name: task.name,
+    //         start: task.start,
+    //         deadline: task.deadline,
+    //         context: task.context,
+    //         status: task.status ?? 'PLANNED'
+    //     }, () => {})
+
+    res.send(response)
+
+     } catch (error) {
+    console.error(error);
+    res.status(500).send(error.message); // Handle errors
+    }
+  })
