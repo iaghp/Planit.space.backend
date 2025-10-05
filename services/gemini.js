@@ -21,14 +21,13 @@ export const generatePlan = async (newPlan) => {
                     "items": {
                       "type": "object",
                       "properties": {
-                        "id": { "type": "integer", "format": "uuid"},
                         "name": { "type": "string" },
                         "description": { "type": "string" },
                         "startTime": { "type": "string", "format": "date-time" },
                         "endTime": { "type": "string", "format": "date-time" },
                         "taskId": { "type": "integer" }
                       },
-                      "required": ["id", "name", "description", "startTime", "endTime", "taskId"]
+                      "required": ["name", "description", "startTime", "endTime", "taskId"]
                     }
                   }
                 },

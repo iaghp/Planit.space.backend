@@ -26,18 +26,6 @@ app.get('/sf', (req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/generate', async (req, res) => {
-  let newPlan = {
-    name: req.body.name,
-    context: req.body.context,
-    deadline: req.body.deadline,
-    currentTime: new Date().toISOString()
-  }
-  console.log(newPlan)
-  const response = await gemini.generatePlan(newPlan);
-  res.send(response)
-}
-)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
