@@ -16,7 +16,7 @@ export const getTasksInDateRange = (scheduleId, s, e, consumer) =>
    query(`SELECT SUBTASKS.*, TASKS.DEADLINE,TASKS.TASKSTART, TASKS.NAME as TASKNAME FROM TASKS INNER JOIN SUBTASKS ON TASKS.ID = SUBTASKS.TASKID WHERE SCHEDULEID = ? AND subtasks.startTime <= ? AND subtasks.endTime >= ? ORDER BY subtasks.startTime`, [scheduleId, e, s], consumer);
 
 export const getSubtasksByTaskId = (taskId, consumer) =>
-   query(`SELECT SUBTASKS.*, TASKS.DEADLINE,TASKS.TASKSTART, TASKS.NAME as TASKNAME FROM TASKS INNER JOIN SUBTASKS ON TASKS.ID = SUBTASKS.TASKID  WHERE TASKS.ID = ?`, [taskId], consumer);
+   query(`SELECT SUBTASKS.*, TASKS.DEADLINE,TASKS.TASKSTART, TASKS.NAME as TASKNAME FROM TASKS INNER JOIN SUBTASKS ON TASKS.ID = SUBTASKS.TASKID  WHERE TASKS.ID = ? ORDER BY SUBTASKS.endTime`, [taskId], consumer);
 /*
 export const getSubtasksInDateRange = (scheduleId, s, e, consumer) => 
    query(`SELECT * FROM SUBTASKS INNER JOIN TASKS ON TASKS.ID = SUBTASKS.TASKIDWHERE SCHEDULEID = ? AND startTime <= ? AND endTime >= ?`, [scheduleId, s, e], consumer);
