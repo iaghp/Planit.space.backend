@@ -16,6 +16,16 @@ export const generatePlan = async (newPlan) => {
             responseSchema: {
                 "type": "object",
                 "properties": {
+                    "tasks": {
+                        "type": "object",
+                        "properties": {
+                            "name": { "type": "string" },
+                            "context": { "type": "string" },
+                            "start": { "type": "string", "format": "date-time" },
+                            "deadline": { "type": "string", "format": "date-time" }
+                        },
+                        "required": ["name", "context", "start", "deadline"]
+                    },
                   "subtasks": {
                     "type": "array",
                     "items": {
@@ -31,7 +41,7 @@ export const generatePlan = async (newPlan) => {
                     }
                   }
                 },
-                "required": ["subtasks"]
+                "required": ["subtasks", "tasks"]
             }
         },
       });
