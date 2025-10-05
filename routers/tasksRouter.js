@@ -176,13 +176,13 @@ tasksRouter.post("/", async (req, res) => {
 
 tasksRouter.post('/:scheduleId/generate', async (req, res) => {
     const { scheduleId } = req.params;
-    const startDate = new Date().toISOString();
+    // const startDate = new Date().toISOString();
     const endDate = req.body.deadline;
 
-    const { deadline, name, context } = req.body; 
+    const { deadline, name, context, startDate } = req.body; 
 
-    if (!deadline || !name || !context) {
-        return res.status(400).send("Missing required fields: name, context, and deadline.");
+    if (!deadline || !name || !context || !startDate) {
+        return res.status(400).send("Missing required fields: name, context, deadline, and/or startDate.");
     }
 
     try {
@@ -223,7 +223,7 @@ tasksRouter.post('/:scheduleId/generate', async (req, res) => {
             }));
         }
 
-    res.send(response)
+    res.status(200).json({ message: "Plan generated and tasks created successfully." });
 
      } catch (error) {
     console.error(error);
