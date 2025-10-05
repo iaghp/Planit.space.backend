@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv'
 import bodyParser from 'body-parser';
+import cors from "cors";
 
 dotenv.config();
 
@@ -12,7 +13,10 @@ const port = process.env.PORT || 3000
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-
+const corsOptions = {
+  origin: [process.env.CORS_ORIGIN, "0.0.0.0", 'http://localhost:5173'],
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get('/', (req, res) => {

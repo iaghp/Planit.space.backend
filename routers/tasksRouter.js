@@ -102,6 +102,28 @@ tasksRouter.get("/:scheduleId/task/:taskId", async (req, res) => {
     })
 })
 
+tasksRouter.get("/:scheduleId/task/:taskId/subtasks", async (req, res) => {
+    const { taskId } = req.params;
+    tasksQueries.getSubtasksByTaskId(taskId, (items) => {
+        const pages = items.map(t => ({
+            id: t.ID,
+            name: t.NAME,
+            startTime: t.STARTTIME,
+            endTime: t.ENDTIME,
+            description: t.DESCRIPTION,
+            status: t.STATUS,
+            parent: {
+                id: t.TASKID,
+                name: t.TASKNAME,
+                deadline: t.DEADLINE,
+                start: t.TASKSTART
+            }
+        }))
+        res.status(200).json(pages)
+    })
+})
+
+
 tasksRouter.get("/:scheduleId/task/:taskId/subtask/:subtaskId", async (req, res) => {
     const { subtaskId } = req.params;
     tasksQueries.getSubtaskById(subtaskId, (t) => {
