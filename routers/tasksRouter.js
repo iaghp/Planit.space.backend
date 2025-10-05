@@ -177,16 +177,33 @@ tasksRouter.post('/:scheduleId/generate', async (req, res) => {
       existingCalendar: existingTasks
     }
     console.log(newPlan)
-    const response = await gemini.generatePlan(newPlan);
-    // response.map(async (task) => {
-    //     const taskId = uuidv4();
-    //     await tasksQueries.createTask(scheduleId, taskId, {
-    //         name: task.name,
-    //         start: task.start,
-    //         deadline: task.deadline,
-    //         context: task.context,
-    //         status: task.status ?? 'PLANNED'
-    //     }, () => {})
+    const rawResponse = await gemini.generatePlan(newPlan);
+    const response = JSON.parse(rawResponse);
+    const task = response.tasks;
+    const taskId = uuidv4();
+    if (task) {
+        const taskId = uuidv4();
+        await tasksQueries.createTask(scheduleId, taskId, {
+            name: task.name,
+            context: task.context,
+            start: task.start,
+            deadline: task.deadline,
+        }
+        , () => {})
+    }
+
+        if (taskId) {
+            await Promise.all((response.subtasks ?? []).map(async (subtask) => {
+                const subtaskId = uuidv4();
+                await tasksQueries.createSubtask(taskId, subtaskId, {
+                    name: subtask.name,
+                    description: subtask.description,
+                    startTime: subtask.startTime,
+                    endTime: subtask.endTime,
+                    taskId: taskId 
+                }, () => {})
+            }));
+        }
 
     res.send(response)
 
