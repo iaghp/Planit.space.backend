@@ -67,4 +67,5 @@ templates/*.pdf
 templates/*.docx
 !templates/.gitkeep
 fonts/*.ttf
-!fonts/.gitkeep
+!fonts/.gitkeepdemo/*.pdf
+demo/*.docx
