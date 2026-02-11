@@ -1,5 +1,82 @@
-# API Specification
+# Planit.space Backend
 
+This repository contains two independent projects:
+
+1. **Legacy Planning API** - A Node.js/Express API for task scheduling and management
+2. **Job Apply CLI** - A Python CLI tool for job application automation
+
+---
+
+## Job Apply - CLI-based Job Application Automation Suite
+
+A comprehensive Python CLI tool that streamlines the entire job application process: generating personalized cover letters, tailoring resumes, and automating browser-based job application form filling.
+
+### Quick Start
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Set up configuration
+cp config/profile.yaml.example config/profile.yaml
+# Edit config/profile.yaml with your information
+
+# Set up API keys
+cp .env.sample .env
+# Add your OPENAI_API_KEY or ANTHROPIC_API_KEY
+
+# Run the CLI
+python -m src.cli --help
+```
+
+### Features
+
+- 🤖 **AI-Powered Cover Letter Generation** - Generate personalized cover letters using OpenAI or Anthropic Claude
+- 📄 **Resume Tailoring** - Automatically tailor your resume to match job descriptions
+- 🌐 **Browser Automation** - Auto-fill job application forms with supervised, semi-auto, or full-auto modes
+- 📑 **Professional PDF Generation** - Create beautifully formatted PDFs with custom fonts and signatures
+- ⚙️ **YAML-Based Configuration** - Easy-to-edit configuration files
+- 🎨 **Rich Terminal Output** - Beautiful, colorful terminal interface
+
+### Commands
+
+```bash
+# Generate cover letter
+python -m src.cli cover-letter \
+  --company "Acme Corp" \
+  --role "Software Engineer" \
+  --job-desc "Job description text..."
+
+# Tailor resume
+python -m src.cli tailor-resume \
+  --resume ./templates/base_resume.pdf \
+  --job-desc-file job_posting.txt
+
+# Auto-fill application
+python -m src.cli auto-fill \
+  --url "https://company.com/apply" \
+  --mode supervised
+
+# Full pipeline
+python -m src.cli apply
+```
+
+For full documentation, see [JOB_APPLY_README.md](JOB_APPLY_README.md) and [CLAUDE.md](CLAUDE.md).
+
+### Running Tests
+
+```bash
+pip install pytest pytest-cov
+python -m pytest tests/ -v
+```
+
+---
+
+## Legacy Planning API
+
+A Node.js/Express backend API for task scheduling and management.
+
+### API Specification
 
 ## Tasks (api/plan/schedule)
 
