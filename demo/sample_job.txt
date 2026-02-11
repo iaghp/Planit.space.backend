@@ -1,0 +1,20 @@
+Senior Software Engineer - Acme Corp
+
+We are seeking a talented Senior Software Engineer to join our growing team. The ideal candidate will have:
+
+Requirements:
+- 5+ years of experience in software development
+- Strong proficiency in Python and JavaScript
+- Experience with React and Node.js
+- Knowledge of cloud platforms (AWS, GCP, or Azure)
+- Experience with microservices architecture
+- Strong communication and leadership skills
+
+Responsibilities:
+- Design and implement scalable backend services
+- Lead technical initiatives and mentor junior developers
+- Collaborate with cross-functional teams
+- Write clean, maintainable code
+- Participate in code reviews and architectural discussions
+
+We offer competitive compensation, excellent benefits, and opportunities for growth.
