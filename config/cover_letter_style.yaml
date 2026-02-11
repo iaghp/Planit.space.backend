@@ -1,0 +1,63 @@
+# Cover Letter PDF Styling Configuration
+
+# Page settings
+page:
+  size: "letter"  # letter, a4
+  orientation: "portrait"
+
+# Margins (in points, 72 points = 1 inch)
+margins:
+  top: 72
+  bottom: 72
+  left: 72
+  right: 72
+
+# Fonts
+fonts:
+  header:
+    family: "Helvetica-Bold"
+    size: 12
+  body:
+    family: "Helvetica"
+    size: 11
+  contact:
+    family: "Helvetica"
+    size: 10
+  signature:
+    family: "Helvetica-Oblique"  # Can be changed to custom font
+    size: 12
+
+# Spacing
+spacing:
+  line_height: 1.2
+  paragraph_spacing: 12
+  section_spacing: 18
+
+# Header
+header:
+  show_name: true
+  show_address: true
+  show_phone: true
+  show_email: true
+  show_linkedin: true
+  align: "left"  # left, center, right
+
+# Signature
+signature:
+  use_image: false  # If true, uses image from templates/signature.png
+  image_path: "templates/signature.png"
+  image_height: 30  # Height in points
+  show_typed_name: true
+  spacing_above: 24
+
+# Colors (RGB values 0-1)
+colors:
+  text: [0, 0, 0]  # Black
+  header: [0, 0, 0]  # Black
+  links: [0, 0, 0.8]  # Blue
+
+# Content constraints
+constraints:
+  max_pages: 1
+  auto_adjust_font: true  # Auto-reduce font if content overflows
+  min_font_size: 9

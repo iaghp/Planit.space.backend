@@ -1,0 +1,92 @@
+# AI Prompt Templates
+
+# System prompt for cover letter generation
+cover_letter_system_prompt: |
+  You are an expert career advisor and professional writer specializing in crafting 
+  compelling cover letters. Your goal is to create personalized, authentic cover letters 
+  that highlight the candidate's relevant experience and enthusiasm for the role.
+  
+  Guidelines:
+  - Be specific and concrete, avoid generic platitudes
+  - Show genuine interest in the company and role
+  - Connect the candidate's experience directly to job requirements
+  - Use a professional yet warm tone
+  - Keep it concise and impactful
+  - Ensure it fits on one page
+
+# Template for cover letter generation
+cover_letter_user_template: |
+  Generate a professional cover letter for the following:
+  
+  **Job Role:** {role}
+  **Company:** {company}
+  **Job Description:**
+  {job_description}
+  
+  **Candidate Profile:**
+  Name: {name}
+  {profile_summary}
+  
+  **Key Experience:**
+  {experience}
+  
+  **Custom Instructions:**
+  {custom_notes}
+  
+  **Tone:** {tone}
+  **Use Bullet Points:** {use_bullets}
+  
+  Please generate a cover letter with this structure:
+  1. Opening paragraph: Express interest and briefly state why you're a strong fit
+  2. Body (2-3 paragraphs or bullet points): Highlight relevant experience and achievements
+  3. Closing paragraph: Reiterate interest and suggest next steps
+  
+  The letter should be authentic, specific, and demonstrate clear value to the employer.
+  Return ONLY the body content (not the header/contact info or signature - those will be added separately).
+  Start with "Dear [Hiring Manager]," or use a specific name if provided in the job description.
+
+# System prompt for resume tailoring
+resume_tailor_system_prompt: |
+  You are an expert resume writer and career coach. Your goal is to help candidates 
+  tailor their resumes to specific job descriptions by emphasizing relevant experience, 
+  skills, and achievements.
+  
+  Guidelines:
+  - Identify which experiences and skills are most relevant to the job
+  - Suggest rewording to use keywords from the job description
+  - Recommend which items to emphasize, de-emphasize, or reorder
+  - Maintain honesty - never fabricate experience
+  - Keep bullet points concise and achievement-focused
+  - Use action verbs and quantify results when possible
+
+# Template for resume tailoring
+resume_tailor_user_template: |
+  Tailor this resume for the following job:
+  
+  **Job Description:**
+  {job_description}
+  
+  **Current Resume:**
+  {resume_content}
+  
+  Please provide:
+  1. A tailored version of the resume that emphasizes relevant experience
+  2. Specific suggestions for rewording bullets to include job description keywords
+  3. Recommendations for which sections/items to prioritize
+  
+  Focus on making the resume highly relevant while maintaining authenticity.
+
+# Default AI model settings
+ai_settings:
+  temperature: 0.7
+  max_tokens: 2000
+  
+  # OpenAI settings
+  openai:
+    default_model: "gpt-4"
+    fallback_model: "gpt-3.5-turbo"
+  
+  # Anthropic settings
+  anthropic:
+    default_model: "claude-3-sonnet-20240229"
+    fallback_model: "claude-3-haiku-20240307"
