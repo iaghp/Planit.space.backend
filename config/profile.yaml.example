@@ -1,0 +1,67 @@
+# User Profile Configuration
+# Copy this file to profile.yaml and customize with your information
+
+personal_info:
+  name: "John Doe"
+  email: "john.doe@example.com"
+  phone: "+1 (555) 123-4567"
+  
+address:
+  street: "123 Main Street"
+  city: "San Francisco"
+  state: "CA"
+  zip: "94102"
+  country: "USA"
+
+links:
+  linkedin: "https://linkedin.com/in/johndoe"
+  github: "https://github.com/johndoe"
+  website: "https://johndoe.com"
+  portfolio: ""
+
+# Professional summary (optional - used in cover letters)
+summary: |
+  Experienced software engineer with 5+ years building scalable web applications.
+  Passionate about clean code, system design, and mentoring junior developers.
+
+# Key skills (used for resume tailoring)
+skills:
+  - Python
+  - JavaScript
+  - React
+  - Node.js
+  - PostgreSQL
+  - Docker
+  - AWS
+  - CI/CD
+
+# Work experience highlights (used for AI context)
+experience:
+  - company: "Tech Corp"
+    role: "Senior Software Engineer"
+    duration: "2020-2024"
+    highlights:
+      - "Led team of 5 engineers building microservices platform"
+      - "Reduced deployment time by 60% through CI/CD improvements"
+      - "Mentored 3 junior developers"
+  
+  - company: "Startup Inc"
+    role: "Software Engineer"
+    duration: "2018-2020"
+    highlights:
+      - "Built React-based admin dashboard serving 10K+ users"
+      - "Implemented real-time features using WebSockets"
+
+# Education
+education:
+  - degree: "Bachelor of Science in Computer Science"
+    school: "University of California"
+    year: "2018"
+
+# Preferences for cover letters
+preferences:
+  tone: "professional"  # professional, warm, enthusiastic, formal
+  length: "medium"      # short (3 paragraphs), medium (4-5), long (6+)
+  use_bullets: false    # Use bullet points in body
+  signature_name: "John Doe"
+  closing: "Sincerely"  # Sincerely, Best regards, etc.
